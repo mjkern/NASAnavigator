@@ -4,4 +4,4 @@ _site/
 .jekyll-metadata
 *.swp
 Gemfile.lock
-materialize-src/
+_materialize-src/

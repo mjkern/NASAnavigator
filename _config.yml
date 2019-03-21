@@ -17,8 +17,8 @@ title: NASA Navigator
 email: mjkern@andrew.cmu.edu
 description: >- # this means to ignore newlines until "baseurl:"
   Search through NASA's image archives with simplicity and ease via this custom website.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/" # the subpath of your site, e.g. /blog
+url: "https://mjkern.github.io/NASAnavigator" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: mjkern
 
 # Build settings
