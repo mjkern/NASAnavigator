@@ -39,3 +39,4 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 #   - *.swp
+#   - materialize-src/
