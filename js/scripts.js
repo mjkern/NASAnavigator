@@ -1,1 +1,1 @@
-window.onload = function(alert("js is working"))
+window.onload = function(){alert("js is working")};
