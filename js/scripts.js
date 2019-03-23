@@ -83,9 +83,8 @@ function criterionHtml(){
         <option value="title">Title</title>
         <option value="description">Description</option>
         <option value="keywords">Keyword</option>
-        <option value="before">Before Year</option>
-        <option value="after">After Year</option>
-        <option value="center">NASA Center</option>
+        <option value="year_start">Before Year</option>
+        <option value="year_end">After Year</option>
       </select>
     </div>
     <div class="input-field col s8">
@@ -105,6 +104,26 @@ function addCriterion(){
   numCriteria++;
 }
 
+var myItems;
+
+function displayResults(results) {
+  $("#results").empty();
+  var items = results.collection.items
+  for (var i = 0; i < items.length; i++){
+    myItems = items;
+    $("#results").append("<p>" + items[i].data[0].title + "</p>");
+    /*
+    $.ajax({
+      url: L[i].href,
+      success: function ( photo ) {
+        p = photo
+        $("#results").append('<img src="' + p[0] + '" />');
+      }
+    });
+    */
+  }
+}
+
 // search the api with the form content
 function search() {
   $('select').formSelect(); // I hate that this works
@@ -121,8 +140,16 @@ function search() {
       data[domain] = value;
     }
 
+
+    $.ajax({
+      url: "https://images-api.nasa.gov/search",
+      data: data,
+      success: function(result) {
+        displayResults(result);
+      }
+    });
+
   }
-  console.log(data)
   return false;
 }
 
