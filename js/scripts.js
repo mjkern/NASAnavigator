@@ -73,13 +73,19 @@ function test() {
   return false;
 }
 
+// add a seach criterion
+function addCriterion(){
+  alert("adding criterion...");
+}
+
+// initializers
+$(document).ready(function(){
+  $("#add-criterion").click(addCriterion);
+});
+
+// starts select options
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('select');
   var instances = M.FormSelect.init(elems, []);
 });
 
-/*
-$(document).ready(function(){
-  $('select').formSelect();
-});
-*/
