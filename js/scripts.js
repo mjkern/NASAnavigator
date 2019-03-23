@@ -71,6 +71,7 @@ function test() {
 
 // global vars
 var numCriteria = 0;
+var criterionIds = [];
 
 // html templates
 function criterionHtml(){
@@ -100,7 +101,9 @@ function criterionHtml(){
 // criterion clear decorator
 function criterionClearer(i){
   return function(){
+    criterionIds = criterionIds.filter(function(element){return i != element;});
     $(`#criterion-${i}`).remove();
+    console.log(criterionIds);
   };
 }
 
@@ -109,6 +112,8 @@ function addCriterion(){
   $('#criteria').append(criterionHtml());
   $(`#criterion-type-${numCriteria}`).formSelect();
   $(`#clear-criterion-${numCriteria}`).click(criterionClearer(numCriteria));
+  criterionIds.push(numCriteria);
+  console.log(criterionIds);
   numCriteria++;
 }
 
@@ -137,7 +142,7 @@ function search() {
   $('select').formSelect(); // I hate that this works
   var criteria = $("#criteria").children();
   var data = { media_type: "image" } // always restrict results to images
-  for (var i = 0; i < numCriteria; i++) {
+  criterionIds.forEach(function(i) {
     //console.log(M.FormSelect.getInstance(criteria[i].children[0].children[0].children[3]).getSelectedValues());
     var domain = M.FormSelect.getInstance($(`#criterion-type-${i}`)).getSelectedValues()[0];
     var value = $(`#search-${i}`).val();
@@ -157,7 +162,7 @@ function search() {
       }
     });
 
-  }
+  });
   return false;
 }
 
