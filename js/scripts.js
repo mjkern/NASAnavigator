@@ -38,10 +38,6 @@ function validateContact() {
   return true;
 }*/
 
-var r;
-var L;
-var p;
-
 function test() {
   var query = $("#search").val();
   console.log("you just searched for");
@@ -73,11 +69,15 @@ function test() {
   return false;
 }
 
+// global vars
+var numCriteria = 0;
+
 // html templates
-const criterionHtml = `
-  <div class="row criterion z-depth-1" id="criterion-0">
-    <div class="input-field col s3" id="domain-0">
-      <select id="criterion-type-0">
+function criterionHtml(){
+  return `
+  <div class="row criterion z-depth-1" id="criterion-${numCriteria}">
+    <div class="input-field col s3" id="domain-${numCriteria}">
+      <select id="criterion-type-${numCriteria}">
         <option value="all" selected >Search All</option>
         <option value="location">Location</option>
         <option value="title">Title</title>
@@ -89,32 +89,33 @@ const criterionHtml = `
       </select>
     </div>
     <div class="input-field col s8">
-      <input placeholder="Search here..." id="search-0" type="text" class="validate" />
+      <input placeholder="Search here..." id="search-${numCriteria}" type="text" class="validate" />
     </div>
     <div class="col s1">
-      <a class="clear-criterion"><i class="material-icons md-dark">close</i></a>
+      <a class="clear-criterion" id="clear-criterion-${numCriteria}><i class="material-icons md-dark">close</i></a>
     </div>
   </div>
-`
+`;
+}
 
 // add a seach criterion
 function addCriterion(){
-  $('#criteria').append(criterionHtml);
-  $('select').formSelect();
+  $('#criteria').append(criterionHtml());
+  $(`#criterion-type-${numCriteria}`).formSelect();
+  numCriteria++;
 }
 
 // search the api with the form content
 function search() {
+  $('select').formSelect(); // I hate that this works
   var criteria = $("#criteria").children();
-  for (var i = 0; i < criteria.length; i++) {
-    r=criteria[i];
+  var data = { media_type: "image" } // always restrict results to images
+  for (var i = 0; i < numCriteria; i++) {
+    console.log(M.FormSelect.getInstance(criteria[i].children[0].children[0].children[3]).getSelectedValues());
+    console.log(M.FormSelect.getInstance($(`#criterion-type-${i}`)).getSelectedValues());
   }
 
-  var c = M.FormSelect.getInstance($("#criterion-type-0")).getSelectedValues();// only works with one bar for now
-  p = c;
-
   console.log(criteria);
-  L = criteria;
   return false;
 }
 
