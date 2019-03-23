@@ -73,19 +73,53 @@ function test() {
   return false;
 }
 
+// html templates
+const criterionHtml = `
+  <div class="row criterion z-depth-1" id="criterion-0">
+    <div class="input-field col s3" id="domain-0">
+      <select>
+        <option value="all" selected >Search All</option>
+        <option value="location">Location</option>
+        <option value="title">Title</title>
+        <option value="description">Description</option>
+        <option value="keyword">Keyword</option>
+        <option value="before">Before Year</option>
+        <option value="after">After Year</option>
+        <option value="center">Research Center</option>
+      </select>
+    </div>
+    <div class="input-field col s8">
+      <input placeholder="Search here..." id="search-0" type="text" class="validate" />
+    </div>
+    <div class="col s1">
+      <a class="clear-criterion"><i class="material-icons md-dark">close</i></a>
+    </div>
+  </div>
+`
+
 // add a seach criterion
 function addCriterion(){
-  alert("adding criterion...");
+  $('#criteria').append(criterionHtml);
+  $('select').formSelect();
 }
 
-// initializers
+// search the api with the form content
+
+// setup
 $(document).ready(function(){
+  // add html
+  addCriterion();
+
+  // initializers
   $("#add-criterion").click(addCriterion);
+  $("#search-form").sumbit(search);
 });
 
 // starts select options
+/*
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('select');
   var instances = M.FormSelect.init(elems, []);
 });
+*/
 
