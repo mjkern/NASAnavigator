@@ -40,7 +40,6 @@ main {
 .criterion {
   background-color: $primary-color-text;
   border-radius: 10000px; // arbitrarily large radius makes pill shape
-  padding-right: 1em;
   padding-left: 1em;
   margin-left: 3% !important; // I don't know why this needs to be important. We've all been there :(
 }

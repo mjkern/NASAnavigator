@@ -91,16 +91,24 @@ function criterionHtml(){
       <input placeholder="Search here..." id="search-${numCriteria}" type="text" class="validate" />
     </div>
     <div class="col s1">
-      <a class="clear-criterion" id="clear-criterion-${numCriteria}><i class="material-icons md-dark">close</i></a>
+      <a class="clear-criterion" id="clear-criterion-${numCriteria}"><i class="material-icons md-dark">close</i></a>
     </div>
   </div>
 `;
+}
+
+// criterion clear decorator
+function criterionClearer(i){
+  return function(){
+    $(`#criterion-${i}`).remove();
+  };
 }
 
 // add a seach criterion
 function addCriterion(){
   $('#criteria').append(criterionHtml());
   $(`#criterion-type-${numCriteria}`).formSelect();
+  $(`#clear-criterion-${numCriteria}`).click(criterionClearer(numCriteria));
   numCriteria++;
 }
 
