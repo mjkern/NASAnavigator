@@ -101,9 +101,13 @@ function criterionHtml(){
 // criterion clear decorator
 function criterionClearer(i){
   return function(){
-    criterionIds = criterionIds.filter(function(element){return i != element;});
-    $(`#criterion-${i}`).remove();
-    console.log(criterionIds);
+    if (criterionIds.length > 1) {
+      criterionIds = criterionIds.filter(function(element){return i != element;});
+      $(`#criterion-${i}`).remove();
+    }
+    else {
+      $(`#search-${i}`).val("");
+    }
   };
 }
 
@@ -113,7 +117,6 @@ function addCriterion(){
   $(`#criterion-type-${numCriteria}`).formSelect();
   $(`#clear-criterion-${numCriteria}`).click(criterionClearer(numCriteria));
   criterionIds.push(numCriteria);
-  console.log(criterionIds);
   numCriteria++;
 }
 
