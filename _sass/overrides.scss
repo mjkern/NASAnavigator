@@ -9,22 +9,6 @@ $primary-text-color:   #212121;
 $secondary-text-color: #757575;
 $divider-color:        #BDBDBD;
 
-// search bar
-.criterion {
-  background-color: $primary-color-text;
-  border-radius: 10000px; // arbitrarily large radius makes pill shape
-  padding-right: 1em;
-  padding-left: 1em;
-}
-
-.clear-criterion {
-  cursor: pointer; // make x look clickable
-}
-
-#search-actions .btn-large {
-  margin-left: 3%;
-}
-
 // material icons
 // found here
 /* Rules for sizing the icon. */
@@ -40,4 +24,25 @@ $divider-color:        #BDBDBD;
 /* Rules for using icons as white on a dark background. */
 .material-icons.md-light { color: rgba(255, 255, 255, 1); }
 .material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+// search bar
+.criterion {
+  background-color: $primary-color-text;
+  border-radius: 10000px; // arbitrarily large radius makes pill shape
+  padding-right: 1em;
+  padding-left: 1em;
+  margin-left: 3% !important; // I don't know why this needs to be important. We've all been there :(
+}
+
+.clear-criterion {
+  cursor: pointer; // make x look clickable
+}
+
+.clear-criterion .md-dark:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+#search-actions .btn-large {
+  margin-left: 3%;
+}
 
