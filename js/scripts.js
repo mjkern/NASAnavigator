@@ -78,14 +78,14 @@ function criterionHtml(){
   <div class="row criterion z-depth-1" id="criterion-${numCriteria}">
     <div class="input-field col s3" id="domain-${numCriteria}">
       <select id="criterion-type-${numCriteria}">
-        <option value="all" selected >Search All</option>
+        <option value="q" selected >Search All</option>
         <option value="location">Location</option>
         <option value="title">Title</title>
         <option value="description">Description</option>
-        <option value="keyword">Keyword</option>
+        <option value="keywords">Keyword</option>
         <option value="before">Before Year</option>
         <option value="after">After Year</option>
-        <option value="center">Research Center</option>
+        <option value="center">NASA Center</option>
       </select>
     </div>
     <div class="input-field col s8">
@@ -111,11 +111,18 @@ function search() {
   var criteria = $("#criteria").children();
   var data = { media_type: "image" } // always restrict results to images
   for (var i = 0; i < numCriteria; i++) {
-    console.log(M.FormSelect.getInstance(criteria[i].children[0].children[0].children[3]).getSelectedValues());
-    console.log(M.FormSelect.getInstance($(`#criterion-type-${i}`)).getSelectedValues());
-  }
+    //console.log(M.FormSelect.getInstance(criteria[i].children[0].children[0].children[3]).getSelectedValues());
+    var domain = M.FormSelect.getInstance($(`#criterion-type-${i}`)).getSelectedValues()[0];
+    var value = $(`#search-${i}`).val();
+    if (data[domain]) {
+      data[domain] += (domain == 'keywords' ? ',' : ' ') + value;
+    }
+    else {
+      data[domain] = value;
+    }
 
-  console.log(criteria);
+  }
+  console.log(data)
   return false;
 }
 
