@@ -11,12 +11,12 @@
       </div>
       <div class="nav-content">
         <div class="row">
-          <form class="col s6">
+          <form class="col s12">
             <div class="row">
-              <div class="col s9">
+              <div class="col s12 m9">
 
-                <div class="row criterion">
-                  <div class="input-field col s3">
+                <div class="row criterion" id="criterion-0">
+                  <div class="input-field col s3" id="domain-0">
                     <select>
                       <option value="aaaa" selected >aaaa</option>
                       <option value="bbbb">bbbb</option>
@@ -24,19 +24,18 @@
                     </select>
                   </div>
                   <div class="input-field col s8">
-                    <input placeholder="Search here..." id="search0" type="text" class="validate" />
+                    <input placeholder="Search here..." id="search-0" type="text" class="validate" />
                   </div>
                   <div class="col s1">
-                    <button class="btn-large waves-effect waves-light remove-criterion"><i class="material-icons">close</i></button>
+                    <a class="clear-criterion"><i class="material-icons md-dark">close</i></a>
                   </div>
                 </div>
 
               </div>
-              <div class="col s1">
-                <a class="btn-floating btn-large waves-effect waves-light"><i class="material-icons">add</i></a>
-              </div>
-              <div class="col s2">
-                <button class="btn-large waves-effect waves-light" type="submit" name="action">Search</button>
+              <div class="col s12 m3">
+                <div class="row" id="search-actions">
+                  <a class="btn-floating btn-large vertical waves-effect waves-light" id="add-criterion"><i class="material-icons">add</i></a>
+                  <button class="btn-large waves-effect waves-light" type="submit" name="action">Search</button>
               </div>
             </div>
           </form>
