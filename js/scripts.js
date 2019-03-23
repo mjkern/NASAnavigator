@@ -77,7 +77,7 @@ function test() {
 const criterionHtml = `
   <div class="row criterion z-depth-1" id="criterion-0">
     <div class="input-field col s3" id="domain-0">
-      <select>
+      <select id="criterion-type-0">
         <option value="all" selected >Search All</option>
         <option value="location">Location</option>
         <option value="title">Title</title>
@@ -104,6 +104,19 @@ function addCriterion(){
 }
 
 // search the api with the form content
+function search() {
+  var criteria = $("#criteria").children();
+  for (var i = 0; i < criteria.length; i++) {
+    r=criteria[i];
+  }
+
+  var c = M.FormSelect.getInstance($("#criterion-type-0")).getSelectedValues();// only works with one bar for now
+  p = c;
+
+  console.log(criteria);
+  L = criteria;
+  return false;
+}
 
 // setup
 $(document).ready(function(){
@@ -112,12 +125,12 @@ $(document).ready(function(){
 
   // initializers
   $("#add-criterion").click(addCriterion);
-  $("#search-form").sumbit(search);
+  $("#search-form").submit(search);
 });
 
 // starts select options
 /*
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded',
   var elems = document.querySelectorAll('select');
   var instances = M.FormSelect.init(elems, []);
 });
