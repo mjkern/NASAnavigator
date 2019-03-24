@@ -98,6 +98,77 @@ function criterionHtml(){
 `;
 }
 
+function resultsHtml(){
+  return `
+<ul class="collapsible img-collapse">
+  <li>
+    <div class="collapsible-header">
+      <div class="row img-row">
+        <div class="col s4 img-col">
+          <img class="img-thumb" data-id="1" src="https://materializecss.com/images/sample-1.jpg">
+        </div>
+        <div class="col s4 img-col">
+          <img class="img-thumb" data-id="a" src="https://materializecss.com/images/sample-1.jpg">
+        </div>
+        <div class="col s4 img-col">
+          <img class="img-thumb" data-id="302" src="https://materializecss.com/images/sample-1.jpg">
+        </div>
+      </div>
+    </div>
+    <div class="collapsible-body">
+      <div class="row img-details hide" data-id="1">
+        <p>First image info goes here</p>
+      </div>
+      <div class="row img-details hide" data-id="a">
+        <p>Image a...</p>
+      </div>
+      <div class="row img-details hide" data-id="302">
+        <p>302 image</p>
+      </div>
+    </div>
+  </li>
+</ul>`;
+}
+
+var resultRowHtml = `
+<li>
+  <div class="collapsible-header">
+    <div class="row img-row">
+    </div>
+  </div>
+  <div class="collapsible-body">
+  </div>
+</li>
+`;
+
+function displayResults(results) {
+  resDiv = $("#results");
+  resDiv.empty();
+  var items = results.collection.items
+  if (items.length > 0){
+    resDiv.append('<ul class="collapsible img-collapse"></ul>');
+    var collapse = $('.img-collapse');
+    for (var i = 0; i < items.length; i++){
+      if (i % 4 == 0){
+        collapse.append(resultRowHtml);
+      }
+      $('.collapsible-header').last().append("<p>" + items[i].data[0].title + "</p>");
+      /*
+      $.ajax({
+        url: L[i].href,
+        success: function ( photo ) {
+          p = photo
+          $("#results").append('<img src="' + p[0] + '" />');
+        }
+      });
+      */
+    }
+  }
+  else {
+    resDiv.append("<p>No results for that :(</p>");
+  }
+}
+
 // criterion clear decorator
 function criterionClearer(i){
   return function(){
@@ -118,26 +189,6 @@ function addCriterion(){
   $(`#clear-criterion-${numCriteria}`).click(criterionClearer(numCriteria));
   criterionIds.push(numCriteria);
   numCriteria++;
-}
-
-var myItems;
-
-function displayResults(results) {
-  $("#results").empty();
-  var items = results.collection.items
-  for (var i = 0; i < items.length; i++){
-    myItems = items;
-    $("#results").append("<p>" + items[i].data[0].title + "</p>");
-    /*
-    $.ajax({
-      url: L[i].href,
-      success: function ( photo ) {
-        p = photo
-        $("#results").append('<img src="' + p[0] + '" />');
-      }
-    });
-    */
-  }
 }
 
 // search the api with the form content
