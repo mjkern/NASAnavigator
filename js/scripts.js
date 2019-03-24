@@ -159,7 +159,7 @@ function imgDetailsHtml(data) {
     <p><b>Location: </b>${data['location']}</p>
     <p><b>Date: </b>${data['date']}</p>
     <p><b>Keywords: </b>${data['keywords']}</p>
-    <p>${data['description']}</p>
+    <p>${data['title'] == data['description'] && data['title'].length < 60 ? "" : data['description']}</p>
   </div>
 </div>`
 }
@@ -185,6 +185,8 @@ function displayResults(results) {
       var title = data.title;
 
       $('.collapsible-header').last().append(imgThumbHtml(href, id, title));
+      //var newElem = $(`.img-thumb[data-id=${id}]`);
+      //newElem.css({'height':`${newElem.width()}px`});
       details = {
         id: id,
         title: title,
