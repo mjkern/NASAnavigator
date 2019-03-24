@@ -148,14 +148,19 @@ function imgThumbHtml(src, id, alt) {
 </div>`
 }
 
-function setImgSrc(src, id) {
-  console.log("should be setting source");
-}
-
 function imgDetailsHtml(data) {
   return `
 <div class="row img-details hide" data-id="${data['id']}">
-  <p>${data['title']}</p>
+  <div class="col s6">
+    <img class="img-full" data-id="${data['id']}" src="${data['src']}" alt="${data['title']}">
+  </div>
+  <div class="col s6">
+    <h3>${data['title'].length < 60 ? data['title'] : ""}</h3>
+    <p><b>Location: </b>${data['location']}</p>
+    <p><b>Date: </b>${data['date']}</p>
+    <p><b>Keywords: </b>${data['keywords']}</p>
+    <p>${data['description']}</p>
+  </div>
 </div>`
 }
 
@@ -180,15 +185,16 @@ function displayResults(results) {
       var title = data.title;
 
       $('.collapsible-header').last().append(imgThumbHtml(href, id, title));
-      $('.collapsible-body').last().append(imgDetailsHtml({id: id, title: title}));
-
-      $.ajax({
-        url: item.href/*,
-        success: function ( photo ) {
-          p = photo
-          $("#results").append('<img src="' + p[0] + '" />');
-        }*/
-      });
+      details = {
+        id: id,
+        title: title,
+        description: data.description,
+        src: href,
+        loc: data['location'], // location is a keyword
+        date: data.date_created,
+        keywords: data.keywords
+      }
+      $('.collapsible-body').last().append(imgDetailsHtml(details));
     }
     var instances = M.Collapsible.init($('.collapsible'));
     $(".img-thumb").click(showImgDetails);
@@ -252,7 +258,6 @@ function search() {
 var myAttribs;
 // show the details for a given image
 function showImgDetails(e) {
-  console.log(e.currentTarget);
   myAtribs = e.currentTarget.attributes;
   dataId = e.currentTarget.attributes["data-id"].value;
   $('.img-details').addClass("hide");
