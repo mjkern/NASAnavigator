@@ -169,14 +169,29 @@ function search() {
   return false;
 }
 
+var myAttribs;
+// show the details for a given image
+function showImgDetails(e) {
+  console.log(e.currentTarget);
+  myAtribs = e.currentTarget.attributes;
+  dataId = e.currentTarget.attributes["data-id"].value;
+  $('.img-details').addClass("hide");
+  $(`.img-details[data-id=${dataId}]`).removeClass("hide");
+}
+
 // setup
 $(document).ready(function(){
   // add html
   addCriterion();
 
-  // initializers
+  // events
   $("#add-criterion").click(addCriterion);
   $("#search-form").submit(search);
+  $(".img-thumb").click(showImgDetails);
+
+  // initializers
+  $('.tabs').tabs();
+
 });
 
 // starts select options
@@ -186,4 +201,15 @@ document.addEventListener('DOMContentLoaded',
   var instances = M.FormSelect.init(elems, []);
 });
 */
+
+// start tooltips
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.tooltipped');
+  var instances = M.Tooltip.init(elems, {enterDelay: 400});
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.collapsible');
+  var instances = M.Collapsible.init(elems);
+});
 
