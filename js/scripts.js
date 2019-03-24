@@ -141,6 +141,25 @@ var resultRowHtml = `
 </li>
 `;
 
+function imgThumbHtml(src, id, alt) {
+  return `
+<div class="col s4 img-col">
+  <img class="img-thumb" data-id="${id}" src="${src}" alt="${alt}">
+</div>`
+}
+
+function setImgSrc(src, id) {
+  console.log("should be setting source");
+}
+
+function imgDetailsHtml(data) {
+  return `
+<div class="row img-details hide" data-id="${data['id']}">
+  <p>${data['title']}</p>
+</div>`
+}
+
+var myItem;
 function displayResults(results) {
   resDiv = $("#results");
   resDiv.empty();
@@ -152,17 +171,27 @@ function displayResults(results) {
       if (i % 4 == 0){
         collapse.append(resultRowHtml);
       }
-      $('.collapsible-header').last().append("<p>" + items[i].data[0].title + "</p>");
-      /*
+
+      myItem=items[i];
+      var item = items[i];
+      var href = item.links[0].href;
+      var data = item.data[0];
+      var id = data.nasa_id;
+      var title = data.title;
+
+      $('.collapsible-header').last().append(imgThumbHtml(href, id, title));
+      $('.collapsible-body').last().append(imgDetailsHtml({id: id, title: title}));
+
       $.ajax({
-        url: L[i].href,
+        url: item.href/*,
         success: function ( photo ) {
           p = photo
           $("#results").append('<img src="' + p[0] + '" />');
-        }
+        }*/
       });
-      */
     }
+    var instances = M.Collapsible.init($('.collapsible'));
+    $(".img-thumb").click(showImgDetails);
   }
   else {
     resDiv.append("<p>No results for that :(</p>");
@@ -238,7 +267,6 @@ $(document).ready(function(){
   // events
   $("#add-criterion").click(addCriterion);
   $("#search-form").submit(search);
-  $(".img-thumb").click(showImgDetails);
 
   // initializers
   $('.tabs').tabs();
@@ -259,8 +287,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var instances = M.Tooltip.init(elems, {enterDelay: 400});
 });
 
+/*
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.collapsible');
   var instances = M.Collapsible.init(elems);
 });
+*/
 
