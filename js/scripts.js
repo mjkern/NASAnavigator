@@ -16,9 +16,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-// global vars to keep track of search fields
-var numCriteria = 0;
-var criterionIds = [];
 
 // html templates
 // stored in function to allow paramterization
@@ -124,6 +121,8 @@ function noResultsHtml(data) {
 
 var myItem; //!!! delete this
 
+/* functions for makeing the content work */
+
 // adds content for all the image results
 function displayResults(results) {
   resDiv = $("#results");
@@ -181,24 +180,51 @@ function displayResults(results) {
   }
 }
 
+// show the details for a given image
+function showImgDetails(e) {
+  // find the unique id for the image that you want to show
+  dataId = e.currentTarget.attributes["data-id"].value;
+
+  // clear all the other details
+  $('.img-details').addClass("hide");
+
+  // show the details for the correct image
+  $(`.img-details[data-id=${dataId}]`).removeClass("hide");
+}
+
+
+/* functions for making the search bar work */
+
+// global vars to keep track of search fields
+var numCriteria = 0;
+var criterionIds = [];
+
 // criterion clear decorator
+// creates a callback to properly clear a specific criterion
 function criterionClearer(i){
   return function(){
+    // only delete it if there is more than one criteria
     if (criterionIds.length > 1) {
       criterionIds = criterionIds.filter(function(element){return i != element;});
-      $(`#criterion-${i}`).remove();
+      $(`#criterion-${i}`).remove(); // keep track of which one was deleted
     }
     else {
+      // otherwise just clear the text inside it
       $(`#search-${i}`).val("");
     }
   };
 }
 
-// add a seach criterion
+// adds another input field to the search bar
 function addCriterion(){
+  // add the htm
   $('#criteria').append(criterionHtml());
+
+  // initialize it properly
   $(`#criterion-type-${numCriteria}`).formSelect();
   $(`#clear-criterion-${numCriteria}`).click(criterionClearer(numCriteria));
+
+  // keep track of the criteria so that we delete and search with the proper ones
   criterionIds.push(numCriteria);
   numCriteria++;
 }
@@ -209,7 +235,6 @@ function search() {
   var criteria = $("#criteria").children();
   var data = { media_type: "image" } // always restrict results to images
   criterionIds.forEach(function(i) {
-    //console.log(M.FormSelect.getInstance(criteria[i].children[0].children[0].children[3]).getSelectedValues());
     var domain = M.FormSelect.getInstance($(`#criterion-type-${i}`)).getSelectedValues()[0];
     var value = $(`#search-${i}`).val();
     if (data[domain]) {
@@ -232,14 +257,6 @@ function search() {
   return false;
 }
 
-var myAttribs;
-// show the details for a given image
-function showImgDetails(e) {
-  myAtribs = e.currentTarget.attributes;
-  dataId = e.currentTarget.attributes["data-id"].value;
-  $('.img-details').addClass("hide");
-  $(`.img-details[data-id=${dataId}]`).removeClass("hide");
-}
 
 // setup
 $(document).ready(function(){
