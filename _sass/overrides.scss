@@ -67,8 +67,8 @@ main {
   height: auto;
 }
 
-.collapsible.img-collapse {
-  box-shadow: 0px !important; // this needs to be important because materialize does it too
+.collapsible {
+  box-shadow: none !important; // this needs to be important because materialize does it too
   border-width: 0px;
 }
 
