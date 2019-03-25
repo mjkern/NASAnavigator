@@ -267,7 +267,9 @@ function search() {
 }
 
 
-// setup
+/* initialize everything properly */
+
+// so jquery todos
 $(document).ready(function(){
   // add html
   addCriterion();
@@ -276,29 +278,12 @@ $(document).ready(function(){
   $("#add-criterion").click(addCriterion);
   $("#search-form").submit(search);
 
-  // initializers
-  $('.tabs').tabs();
-
 });
 
-// starts select options
-/*
-document.addEventListener('DOMContentLoaded',
-  var elems = document.querySelectorAll('select');
-  var instances = M.FormSelect.init(elems, []);
-});
-*/
-
+// and some materialize todos
 // start tooltips
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.tooltipped');
   var instances = M.Tooltip.init(elems, {enterDelay: 400});
 });
-
-/*
-document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.collapsible');
-  var instances = M.Collapsible.init(elems);
-});
-*/
 
