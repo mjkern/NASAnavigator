@@ -69,7 +69,7 @@ main {
 
 .collapsible {
   box-shadow: none !important; // this needs to be important because materialize does it too
-  border-width: 0px;
+  border: none !important;
 }
 
 // footer
