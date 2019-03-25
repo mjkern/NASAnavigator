@@ -1,22 +1,4 @@
 
-//!!! delete the following function
-// the following code from http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-        }
-    }
-};
-
-
 // html templates
 // stored in function to allow paramterization
 function criterionHtml(){
@@ -122,8 +104,6 @@ function noResultsHtml(data) {
 </div>`
 }
 
-var myItem; //!!! delete this
-
 /* functions for makeing the content work */
 
 // adds content for all the image results
@@ -146,7 +126,6 @@ function displayResults(results) {
       }
 
       // extract some relevant data
-      myItem=items[i];
       var item = items[i];
       var href = item.links[0].href;
       var data = item.data[0];
@@ -177,7 +156,10 @@ function displayResults(results) {
     }
 
     // and make sure to initialize the new collapsible
-    var instances = M.Collapsible.init($('.collapsible'));
+    var instances = M.Collapsible.init($('.collapsible'), {
+      // a callback to show the right data on close
+      onCloseEnd: function() { $(".img-details").addClass("hide"); }
+    });
 
     // and show the correct image details when the image is clicked
     $(".img-thumb").click(showImgDetails);
@@ -190,14 +172,17 @@ function displayResults(results) {
 
 // show the details for a given image
 function showImgDetails(e) {
-  // find the unique id for the image that you want to show
-  dataId = e.currentTarget.attributes["data-id"].value;
+  // only show if you are not showing something else already
+  if ($(".img-details.hide").length == $(".img-details").length) {
+    // find the unique id for the image that you want to show
+    dataId = e.currentTarget.attributes["data-id"].value;
 
-  // clear all the other details
-  $('.img-details').addClass("hide");
+    // clear all the other details
+    $('.img-details').addClass("hide");
 
-  // show the details for the correct image
-  $(`.img-details[data-id=${dataId}]`).removeClass("hide");
+    // show the details for the correct image
+    $(`.img-details[data-id=${dataId}]`).removeClass("hide");
+  }
 }
 
 
