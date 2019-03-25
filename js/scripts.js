@@ -95,7 +95,11 @@ function imgThumbHtml(src, id, alt) {
 </div>`
 }
 
+// this includes some template logic to ignore undefined data
+// and to properly handle cases where the title and description
+// are identical
 function imgDetailsHtml(data) {
+  console.log(data);
   return `
 <div class="row img-details hide" data-id="${data['id']}">
   <div class="col s6">
@@ -103,9 +107,8 @@ function imgDetailsHtml(data) {
   </div>
   <div class="col s6">
     <h3>${data['title'].length < 60 ? data['title'] : ""}</h3>
-    <p><b>Location: </b>${data['location']}</p>
-    <p><b>Date: </b>${data['date']}</p>
-    <p><b>Keywords: </b>${data['keywords']}</p>
+    ${ data['loc'] ? "<p><b>Location: </b>" + data['loc'] + "</p>" : "" }
+    ${ data['date'] ? "<p><b>Date: </b>" + data['date'] + "</p>" : "" }
     <p>${data['title'] == data['description'] && data['title'].length < 60 ? "" : data['description']}</p>
   </div>
 </div>`
