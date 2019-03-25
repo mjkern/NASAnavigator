@@ -81,7 +81,6 @@ function imgThumbHtml(src, id, alt) {
 // and to properly handle cases where the title and description
 // are identical
 function imgDetailsHtml(data) {
-  console.log(data);
   return `
 <div class="row img-details hide" data-id="${data['id']}">
   <div class="col s6">
