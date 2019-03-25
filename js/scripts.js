@@ -1,6 +1,5 @@
-//window.onload = function(){alert("js is working")};
 
-
+//!!! delete the following function
 // the following code from http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
@@ -17,63 +16,12 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
-function searchapi(){
-  //let y = document.forms['search-form']["search"].value;
-  let y = $('#search').val();
-  //let x = document.forms["search-form"]["search"].value;
-  console.log("the value is:");
-  console.log(y);
-  //colsole.log(x);
-  return false;
-}
-/*
-function validateContact() {
-  // make sure sip code is a five digit number
-  var code = $("#zip-code").val();
-  if (code.length != 0 && (code.length != 5 || isNaN(code))){
-    alert("Zip Code must be a five digit number. Please change and resubmit.")
-    return false;
-  }
-
-  return true;
-}*/
-
-function test() {
-  var query = $("#search").val();
-  console.log("you just searched for");
-  console.log(query);
-
-  $.ajax({
-    url: "https://images-api.nasa.gov/search",
-    data: {
-      q: query,
-      media_type: "image"
-    },
-    success: function( result ) {
-      r = result;
-      L = r.valueOf().collection.items
-      for (var i = 0; i < L.length; i++){
-        $("#results").append("<p>" + L[i].data[0].title + "</p>");
-        $.ajax({
-          url: L[i].href,
-          success: function ( photo ) {
-            p = photo
-            $("#results").append('<img src="' + p[0] + '" />');
-          }
-        });
-      }
-      $("#results").append("<p>out of loop</p>");
-    }
-  });
-
-  return false;
-}
-
-// global vars
+// global vars to keep track of search fields
 var numCriteria = 0;
 var criterionIds = [];
 
 // html templates
+// stored in function to allow paramterization
 function criterionHtml(){
   return `
   <div class="row criterion z-depth-1" id="criterion-${numCriteria}">
@@ -130,7 +78,8 @@ function resultsHtml(){
 </ul>`;
 }
 
-var resultRowHtml = `
+function resultRowHtml() {
+  return `
 <li>
   <div class="collapsible-header">
     <div class="row img-row">
@@ -140,6 +89,7 @@ var resultRowHtml = `
   </div>
 </li>
 `;
+}
 
 function imgThumbHtml(src, id, alt) {
   return `
@@ -164,19 +114,36 @@ function imgDetailsHtml(data) {
 </div>`
 }
 
-var myItem;
+function noResultsHtml(data) {
+  return `
+<div class="row center">
+  <h3>No Results Found :'(</h3>
+  <h5>Have you tried simplifying the search criteria?</h5>
+</div>`
+}
+
+var myItem; //!!! delete this
+
+// adds content for all the image results
 function displayResults(results) {
   resDiv = $("#results");
   resDiv.empty();
   var items = results.collection.items
+
+  // only show content if there is content to show
   if (items.length > 0){
+
+    // all the results will be displayed in a collapsible to show the details
     resDiv.append('<ul class="collapsible img-collapse"></ul>');
     var collapse = $('.img-collapse');
+
+    // put 4 images in each row of the collabpsible
     for (var i = 0; i < items.length; i++){
       if (i % 4 == 0){
-        collapse.append(resultRowHtml);
+        collapse.append(resultRowHtml());
       }
 
+      // extract some relevant data
       myItem=items[i];
       var item = items[i];
       var href = item.links[0].href;
@@ -184,9 +151,10 @@ function displayResults(results) {
       var id = data.nasa_id;
       var title = data.title;
 
+      // and add the image to the collapsible head
       $('.collapsible-header').last().append(imgThumbHtml(href, id, title));
-      //var newElem = $(`.img-thumb[data-id=${id}]`);
-      //newElem.css({'height':`${newElem.width()}px`});
+
+      // make a more robust collection of the image details for the content
       details = {
         id: id,
         title: title,
@@ -196,13 +164,20 @@ function displayResults(results) {
         date: data.date_created,
         keywords: data.keywords
       }
+
+      // add the details fo the image to the collapsible for the content
       $('.collapsible-body').last().append(imgDetailsHtml(details));
     }
+
+    // and make sure to initialize the new collapsible
     var instances = M.Collapsible.init($('.collapsible'));
+
+    // and show the correct image details when the image is clicked
     $(".img-thumb").click(showImgDetails);
   }
   else {
-    resDiv.append("<p>No results for that :(</p>");
+    // display content if there really are no results
+    resDiv.append(noResultsHtml());
   }
 }
 
