@@ -164,6 +164,11 @@ function displayResults(results) {
         keywords: data.keywords
       }
 
+      // formate the date better
+      if (details['date']){
+        details['date'] = (new Date(details['date'])).toDateString();
+      }
+
       // add the details fo the image to the collapsible for the content
       $('.collapsible-body').last().append(imgDetailsHtml(details));
     }
