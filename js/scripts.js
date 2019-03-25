@@ -229,31 +229,40 @@ function addCriterion(){
   numCriteria++;
 }
 
-// search the api with the form content
+// search the api with the criteria in the form
 function search() {
-  $('select').formSelect(); // I hate that this works
+
+  // re-initialize the select menues to make sure they have the proper values
+  $('select').formSelect();
+
+  // collect all the criteria into a data object to dearch with
   var criteria = $("#criteria").children();
   var data = { media_type: "image" } // always restrict results to images
+  // so find each criteria...
   criterionIds.forEach(function(i) {
     var domain = M.FormSelect.getInstance($(`#criterion-type-${i}`)).getSelectedValues()[0];
+    // and append its value to the correct search item
     var value = $(`#search-${i}`).val();
+    // if a criteria for this field has already been added then just add it to the existing field
     if (data[domain]) {
+      // seperate with commas for keywords, and spaces otherwise
       data[domain] += (domain == 'keywords' ? ',' : ' ') + value;
     }
     else {
+      // but if this is the first time for a field then just add it
       data[domain] = value;
     }
 
-
+    // now actually perform the query and display the results
     $.ajax({
       url: "https://images-api.nasa.gov/search",
       data: data,
-      success: function(result) {
-        displayResults(result);
-      }
+      success: displayResults
     });
-
   });
+
+  // returning false means the form is not submitting anywhere
+  // this prevents the page from refreshing and losing the content
   return false;
 }
 
